@@ -22,9 +22,36 @@ const addStudent = (req, res) => {
 };
 
 const getStudents = (req, res) => {
-  res.status(200).json(students);
+  try {
+    if (!students) {
+      return res.status(404).json({
+        message: "No Student, Add a Student",
+      });
+    }
+    res.status(200).json({
+      message: "Student Founded",
+      students,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Student not found",
+      error: error.message,
+    });
+  }
 };
 
-const deleteStudent = (req, res) => {};
+const deleteStudent = (req, res) => {
+  try {
+    const { id } = req.params;
+    const index = students.findIndex((std) => std.id === id);
+    students.splice(index, 1);
+    res.status(200).json({ message: "Student deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Student not able to Delete",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = { addStudent, getStudents, deleteStudent };

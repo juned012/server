@@ -54,4 +54,22 @@ const deleteStudent = (req, res) => {
   }
 };
 
-module.exports = { addStudent, getStudents, deleteStudent };
+const updateStudent = (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { name, age, city } = req.body;
+    const index = students.findIndex((std) => std.id === id);
+    students[index] = { ...students[index], name, age, city };
+    res.status(200).json({
+      message: "Student Updated Successfully",
+      updatedStudent: students[index],
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update student",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { addStudent, getStudents, deleteStudent, updateStudent };

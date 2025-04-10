@@ -23,9 +23,9 @@ const addStudent = (req, res) => {
 
 const getStudents = (req, res) => {
   try {
-    if (!students) {
+    if (students.length === 0) {
       return res.status(404).json({
-        message: "No Student, Add a Student",
+        message: "No students available. Add a student.",
       });
     }
     res.status(200).json({
@@ -42,7 +42,7 @@ const getStudents = (req, res) => {
 
 const deleteStudent = (req, res) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id);
     const index = students.findIndex((std) => std.id === id);
     students.splice(index, 1);
     res.status(200).json({ message: "Student deleted successfully" });
